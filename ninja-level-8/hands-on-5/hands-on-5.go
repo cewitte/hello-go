@@ -83,5 +83,4 @@ func main() {
 	sort.Sort(ByLast(users))
 	fmt.Println("\nSorted by last:")
 	friendlyPrint(&users)
-
 }
