@@ -1,3 +1,4 @@
+// Test exercise.
 package main
 
 import (
