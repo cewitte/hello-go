@@ -2,10 +2,27 @@ package main
 
 import "testing"
 
-func TestAverage(t *testing.T) {
-	avg := average(3, 5)
+type test struct {
+	data   []int
+	answer int
+}
 
-	if avg != 4 {
-		t.Error("Expected", 4, "Got", avg)
+func TestAverage(t *testing.T) {
+	tests := []test{
+		test{[]int{87, 53, 87, 99, 13}, 87},
+		test{[]int{85, 29, 93, 14, 48}, 48},
+		test{[]int{31, 51, 34, 66, 58}, 51},
+		test{[]int{50, 38, 62, 72, 81}, 62},
 	}
+
+	for _, v := range tests {
+		x := average(v.data...)
+		if x != v.answer {
+			t.Error("Expected", v.answer, "Got", x)
+		}
+	}
+}
+
+func main() {
+
 }
