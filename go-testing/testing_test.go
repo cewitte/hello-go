@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 type test struct {
 	data   []int
@@ -20,5 +23,17 @@ func TestAverage(t *testing.T) {
 		if x != v.answer {
 			t.Error("Expected", v.answer, "Got", x)
 		}
+	}
+}
+
+func ExampleAverage() {
+	fmt.Println(average(50, 38, 62, 72, 81))
+	// Output:
+	// 60
+}
+
+func BenchmarkGreet(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		average(50, 38, 62, 72, 81)
 	}
 }
