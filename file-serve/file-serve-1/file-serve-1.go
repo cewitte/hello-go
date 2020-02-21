@@ -21,7 +21,7 @@ func doggy(w http.ResponseWriter, r *http.Request) {
 
 var tpl *template.Template
 
-func init() {
+func init() {n 
 	tpl = template.Must(template.ParseFiles("dog.gohtml"))
 }
 
