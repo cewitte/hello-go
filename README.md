@@ -1,2 +1,3 @@
 # hello-go
-Learning Golang.
+
+Go (Golang) snippets and experiences.
