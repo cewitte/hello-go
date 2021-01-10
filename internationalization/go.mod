@@ -1,4 +1,4 @@
-module github.com/cewitte/hello-go
+module github.com/cewitte/hello-go/internationalization
 
 go 1.15
 
