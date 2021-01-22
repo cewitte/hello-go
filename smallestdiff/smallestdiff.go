@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"sort"
 )
 
@@ -15,22 +16,28 @@ type format struct {
 }
 
 var formats = map[string]format{
-	"A10": {"A10", 26, 37},
-	"A9":  {"A9", 37, 52},
-	"A8":  {"A8", 52, 74},
-	"A7":  {"A7", 74, 105},
-	"A6":  {"A6", 105, 148},
-	"A5":  {"A5", 148, 210},
-	"A4":  {"A4", 210, 297},
-	"A3":  {"A3", 297, 420},
-	"A2":  {"A2", 420, 594},
-	"A1":  {"A1", 594, 841},
-	"A0":  {"A0", 841, 1189},
+	"A10":     {"A10", 26, 37},
+	"A9":      {"A9", 37, 52},
+	"A8":      {"A8", 52, 74},
+	"A7":      {"A7", 74, 105},
+	"A6":      {"A6", 105, 148},
+	"A5":      {"A5", 148, 210},
+	"A4":      {"A4", 210, 297},
+	"A3":      {"A3", 297, 420},
+	"A2":      {"A2", 420, 594},
+	"A1":      {"A1", 594, 841},
+	"A0":      {"A0", 841, 1189},
+	"Epson 1": {"Epson 1", 1580, 1580},
+	"Epson 2": {"Epson 2", 1580, 1580 * 2},
+	"Epson 3": {"Epson 3", 1580, 1580 * 3},
+	"Epson 4": {"Epson 4", 1580, 1580 * 4},
+	"Epson 5": {"Epson 5", 1580, 1580 * 5},
+	"Epson 6": {"Epson 4", 1580, 1580 * 6},
 }
 
 const (
-	maxWidth  = 841
-	maxHeight = 1189
+	maxWidth  = 1580
+	maxHeight = 1580 * 6
 )
 
 func closestFormat(width, height *int) (*format, error) {
@@ -72,7 +79,7 @@ func (f *format) String() string {
 func printResult(width, height int) {
 	v, err := closestFormat(&width, &height)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	fmt.Printf("The closest format to width=%d and height=%d is %s\n", width, height, v)
@@ -81,12 +88,27 @@ func printResult(width, height int) {
 func main() {
 	w := flag.Int("w", 210, "-w=210")
 	h := flag.Int("h", 297, "-h=297")
+	count := flag.Int("c", 100, "-c=100")
 	flag.Parse()
 	printResult(*w, *h)
-	// printResult(220, 280)
-	// printResult(210, 280)
-	// printResult(150, 150)
-	// printResult(15, 150)
-	// printResult(100, 100)
-	// printResult(1300, 150)
+
+	fmt.Println("Testing all formats now...")
+	for _, v := range formats {
+		printResult(v.width, v.height)
+	}
+
+	fmt.Println("\n\nTesting ramdomly...")
+	for i := 0; i < *count; i++ {
+		w := rand.Intn(maxWidth)
+		h := rand.Intn(maxHeight)
+		if w > 0 && h > 0 {
+			if w > h {
+				// It's landscape. Let's rotate it.
+				printResult(h, w)
+			} else {
+				printResult(w, h)
+			}
+
+		}
+	}
 }
